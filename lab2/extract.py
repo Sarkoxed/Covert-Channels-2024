@@ -18,7 +18,6 @@ def hist(data, xl, yl, title):
     plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
     plt.xlim(xmax=max(data) + 0.5)
     plt.savefig(title)
-    sleep(1)
 
 
 def extract_packets(fname, start=0):
@@ -36,6 +35,7 @@ def extract_packets(fname, start=0):
         if i >= start:
             delays.append(time_delay)
         i += 1
+    cap.close()
     return delays
 
 
