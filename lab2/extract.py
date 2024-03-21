@@ -58,7 +58,7 @@ print()
 print("2")
 for i in range(1, 13):
     delays = extract_packets(f"{i}.pcapng", 99)
-    n, ints = np.histogram(delays, bins=30)
+    n, ints = np.histogram(delays[99:], bins=30)
     avg = sum(delays) / len(delays)
 
     max_delay = max(delays)
