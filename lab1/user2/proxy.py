@@ -34,21 +34,19 @@ def start_proxy(port: int, server_host: str, server_port: int, message: str):
         while True:
             data = client.recv(1024)
             error(colored(f"PROXY::Received data {data}", "red"))
+            q.put(data)
             if not data:
                 break
-            q.put(data)
         client.close()
-
-        global finished
-        finished = True
 
     def be_proxy_and_send_message(host: str, port: port, msg):
         data = b""
         delay = 0.0
         started = False
         server = None
+        finished = False
         while msg or not finished:
-            print(finished)
+            delay = 0.0
             if msg and started:
                 if msg & 1:
                     delay = 0.1 * random() + 0.2 + M
@@ -57,17 +55,24 @@ def start_proxy(port: int, server_host: str, server_port: int, message: str):
                 msg >>= 1
 
                 if q.empty():
-                    data = urandom(randint(1, 100))
+                    data = urandom(randint(1, 10))
                     data = len(data).to_bytes(4, "big") + data
+                    error(colored(f"PROXY::sending data {data}", "green"))
                 else:
                     data = q.get()
+                    if data == b'':
+                        finished = True
+                    error(colored(f"PROXY::sending data {data}", "yellow"))
 
-                error(colored(f"PROXY::sending data {data}", "blue"))
                 sleep(delay)
                 server.send(data)
             elif not q.empty():
                 if started:
                     data = q.get()
+                    error(colored(f"PROXY::sending data {data}", "yellow"))
+                    if data == b'':
+                        finished = True
+ 
                     server.send(data)
                 else:
                     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

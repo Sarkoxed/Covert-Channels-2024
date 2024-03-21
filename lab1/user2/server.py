@@ -28,8 +28,8 @@ def start_server(port: int, M: float):
         print(f"{times=}")
 
         timelen = len(times)
-        M = int("".join(str(int(x > M)) for x in times)[::-1], 2)
-        msg = M.to_bytes((timelen + 7) // 8, "big")
+        m = int("".join(str(int(x > M)) for x in times)[::-1], 2)
+        msg = m.to_bytes((timelen + 7) // 8, "big")
         error(colored(f"Recovered message: {msg}", "green"))
 
 

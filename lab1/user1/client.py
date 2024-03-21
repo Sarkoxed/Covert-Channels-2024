@@ -11,7 +11,7 @@ def model_packets(host, port, n_packets=200):
 
     sent = 0
     while sent < n_packets:
-        data = urandom(randint(1, 100))
+        data = urandom(randint(1, 10))
         data = len(data).to_bytes(4, "big") + data
         client.send(data)
 
