@@ -5,7 +5,7 @@ from random import randint, random
 from time import sleep
 
 
-def model_packets(host, port, n_packets=200):
+def model_packets(host, port, n_packets=50):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((host, port))
 

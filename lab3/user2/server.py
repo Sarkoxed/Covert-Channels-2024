@@ -10,6 +10,7 @@ def start_server(port: int, M: float):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(("localhost", port))
+    error(f"SERVER::binding to localhost:{port}")
     sock.listen(1)
 
     while True:

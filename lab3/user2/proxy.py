@@ -20,9 +20,9 @@ M = 0.48871803283691406
 def start_proxy(port: int, server_host: str, server_port: int, message: str):
     q = Queue()
     msg = int.from_bytes(message.encode(), "big")
-    finished = False
 
     def listen_and_buffer(port):
+        error(colored(f"PROXY::binding to localhost::{port}", "red"))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(("localhost", port))
@@ -60,7 +60,7 @@ def start_proxy(port: int, server_host: str, server_port: int, message: str):
                     error(colored(f"PROXY::sending data {data}", "green"))
                 else:
                     data = q.get()
-                    if data == b'':
+                    if data == b"":
                         finished = True
                     error(colored(f"PROXY::sending data {data}", "yellow"))
 
@@ -70,9 +70,9 @@ def start_proxy(port: int, server_host: str, server_port: int, message: str):
                 if started:
                     data = q.get()
                     error(colored(f"PROXY::sending data {data}", "yellow"))
-                    if data == b'':
+                    if data == b"":
                         finished = True
- 
+
                     server.send(data)
                 else:
                     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -83,7 +83,6 @@ def start_proxy(port: int, server_host: str, server_port: int, message: str):
 
         server.close()
 
-    finished = False
     receive = Thread(target=listen_and_buffer, args=(port,))
     receive.start()
     send = Thread(
