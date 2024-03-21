@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from time import sleep
 
+def hist1(data, xl, yl, title):
+    plt.clf()
+    n, _, _ plt.hist(data, bins=30, color="skyblue", alpha=0.7, edgecolor="black")
+
+    return n
+
 
 def hist(data, xl, yl, title):
     plt.clf()
@@ -39,32 +45,35 @@ def extract_packets(fname, start=0):
     return delays
 
 
-print("1")
-for i in range(1, 13):
-    delays = extract_packets(f"{i}.pcapng")
-    n, ints = np.histogram(delays, bins=30)
-    avg = sum(delays) / len(delays)
-
-    max_delay = max(delays)
-    avg_C = (
-        sum(n[i] * (ints[i + 1] - ints[i]) for i in range(len(ints) - 1)) / max_delay
-    )
-
-    hist(delays, "delay", "freq", f"task1/{i}")
-    max_C = max(n)
-    print(f"{avg_C, max_C = }")
-    print(f"P_{i} = {1 - avg_C / max_C}")
-print()
+#print("1")
+#for i in range(1, 13):
+#    delays = extract_packets(f"{i}.pcapng")
+#    n, ints = np.histogram(delays, bins=30)
+#    avg = sum(delays) / len(delays)
+#
+#    max_delay = max(delays)
+#    avg_C = (
+#        sum(n[i] * (ints[i + 1] - ints[i]) for i in range(len(ints) - 1)) / max_delay
+#    )
+#
+#    hist(delays, "delay", "freq", f"task1/{i}")
+#    max_C = max(n)
+#    print(f"{avg_C, max_C = }")
+#    print(f"P_{i} = {1 - avg_C / max_C}")
+#print()
 print("2")
 for i in range(1, 13):
     delays = extract_packets(f"{i}.pcapng", 99)
     n, ints = np.histogram(delays[99:], bins=30)
+    print(n)
+    exit()
     avg = sum(delays) / len(delays)
 
     max_delay = max(delays)
-    avg_C = (
-        sum(n[i] * (ints[i + 1] - ints[i]) for i in range(len(ints) - 1)) / max_delay
-    )
+    #avg_C = (
+    #    sum(n[i] * (ints[i + 1] - ints[i]) for i in range(len(ints) - 1)) / max_delay
+    #)
+    avg_C = avg
 
     hist(delays, "delay", "freq", f"task2/{i}")
     max_C = max(n)
