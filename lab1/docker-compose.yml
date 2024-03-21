@@ -1,0 +1,28 @@
+services:
+  server:
+    build: ./user2
+    hostname: real_user2
+
+    ports: 
+      - 8888:8888
+      - 7777:7777
+    
+    networks:
+      - lab1
+
+    restart: unless-stopped
+      
+        #  client:
+        #    build: ./user1
+        #    hostname: user1
+        #
+        #    networks:
+        #      - lab1
+        #
+        #    depends_on: 
+        #      - server
+        #      - proxy
+
+networks:
+  lab1:
+    driver: overlay
